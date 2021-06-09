@@ -31,18 +31,23 @@ function App() {
 
   const onUpload = async () => {
     setSuccess(false);
-    try {
-      const formData = new FormData();
 
-      formData.append('image', image, originalFile.name);
+    if (!image) {
+      alert('Selecione uma imagem!');
+    } else {
+      try {
+        const formData = new FormData();
 
-      await axios.post('http://localhost:2021/upload', formData);
+        formData.append('image', image, originalFile.name);
 
-      setImage();
-      setSuccess(true);
-      setOriginalFile();
-    } catch (error) {
-      setSuccess(false);
+        await axios.post('http://localhost:2021/upload', formData);
+
+        setImage();
+        setSuccess(true);
+        setOriginalFile();
+      } catch (error) {
+        setSuccess(false);
+      }
     }
   };
 
@@ -65,8 +70,26 @@ function App() {
       <h3>Upload de Imagens</h3>
       <div>
         <input type="file" onChange={e => onChangeUpload(e)} />
-        <button onClick={() => onUpload()}>
-          Upload
+      </div>
+      <div
+        style={{
+          marginTop: '5px',
+          width: '100%',
+          display: 'flex',
+          justifyContent: 'center'
+        }}
+      >
+        <button
+          style={{
+            width: '290px',
+            height: '50px',
+            borderRadius: '5px',
+            backgroundColor: '#298FCA',
+            color: 'white'
+          }}
+          onClick={() => onUpload()}
+        >
+          UPLOAD
         </button>
       </div>
       {
